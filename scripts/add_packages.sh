@@ -20,6 +20,31 @@ CONFIG_PACKAGE_luci-i18n-ssr-plus-zh-cn=y
 EOF
 # }}
 
+# {{ Add luci-app-passwall2
+(cd friendlywrt/package && {
+    [ -d luci-app-passwall2 ] && rm -rf luci-app-passwall2
+    git clone https://github.com/Openwrt-Passwall/openwrt-passwall2.git -b main
+})
+cat >> configs/rockchip/01-nanopi << EOF
+CONFIG_PACKAGE_luci-app-passwall2=y
+# CONFIG_PACKAGE_luci-app-passwall2_Basic_Core_Xray is not set
+# CONFIG_PACKAGE_luci-app-passwall2_Basic_Core_SingBox is not set
+CONFIG_PACKAGE_luci-app-passwall2_Basic_Core_All=y
+# CONFIG_PACKAGE_luci-app-passwall2_Iptables_Transparent_Proxy is not set
+CONFIG_PACKAGE_luci-app-passwall2_Nftables_Transparent_Proxy=y
+CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Haproxy=y
+CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Hysteria=y
+CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_NaiveProxy=y
+CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Shadowsocks_Rust_Client=y
+# CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Shadowsocks_Rust_Server is not set
+CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_ShadowsocksR_Libev_Client=y
+# CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_ShadowsocksR_Libev_Server is not set
+CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_Simple_Obfs=y
+CONFIG_PACKAGE_luci-app-passwall2_INCLUDE_V2ray_Plugin=y
+CONFIG_PACKAGE_luci-i18n-passwall2-zh-cn=y
+EOF
+# }}
+
 # {{ Add luci-app-vlmcsd
 (cd friendlywrt/package && {
     [ -d luci-app-vlmcsd ] && rm -rf luci-app-vlmcsd

@@ -15,7 +15,7 @@ jobs:
 
     - name: Create empty release (draft)
       id: release
-      uses: softprops/action-gh-release@v2
+      uses: softprops/action-gh-release@v3
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
@@ -124,7 +124,7 @@ jobs:
         tar -zcf workspace.tar.gz project
 
     - name: Upload prepared workspace
-      uses: actions/upload-artifact@v5
+      uses: actions/upload-artifact@v7
       with:
         name: workspace_${{ matrix.VERSION }}_${{ matrix.SET }}
         path: workspace.tar.gz
@@ -140,7 +140,7 @@ jobs:
     steps:
 
     - name: Download prepared workspace
-      uses: actions/download-artifact@v6
+      uses: actions/download-artifact@v8
       with:
         name: workspace_${{ matrix.VERSION }}_docker # 使用包含 docker 的工具链以包含更多可能用到的内容
 
@@ -167,7 +167,7 @@ jobs:
         tar -zcf toolchain.tar.gz project/friendlywrt/staging_dir
 
     - name: Upload built toolchain
-      uses: actions/upload-artifact@v5
+      uses: actions/upload-artifact@v7
       with:
         name: toolchain_${{ matrix.VERSION }}
         path: toolchain.tar.gz
@@ -217,7 +217,7 @@ jobs:
         df -h
 
     - name: Download prepared workspace
-      uses: actions/download-artifact@v6
+      uses: actions/download-artifact@v8
       with:
         name: workspace_${{ matrix.VERSION }}_${{ matrix.SET }}
 
@@ -226,7 +226,7 @@ jobs:
         tar -zxf workspace.tar.gz
 
     - name: Download built toolchain
-      uses: actions/download-artifact@v6
+      uses: actions/download-artifact@v8
       with:
         name: toolchain_${{ matrix.VERSION }}
 
@@ -299,7 +299,7 @@ jobs:
         echo "host_pm_filename=$host_pm_filename" >> $GITHUB_OUTPUT
 
     - name: Upload rootfs package
-      uses: actions/upload-artifact@v5
+      uses: actions/upload-artifact@v7
       with:
         name: rootfs_${{ matrix.VERSION }}_${{ matrix.SET }}
         path: ./artifact/${{ steps.create_rootfs_package.outputs.rootfs_filename }}
@@ -307,7 +307,7 @@ jobs:
 
     - name: Upload host package-manager bundle
       if: matrix.SET == 'non-docker'
-      uses: actions/upload-artifact@v5
+      uses: actions/upload-artifact@v7
       with:
         name: host_pm_${{ matrix.VERSION }}
         path: ./artifact/${{ steps.create_host_pm_package.outputs.host_pm_filename }}
@@ -365,12 +365,12 @@ jobs:
         repo sync -c toolchain  --no-clone-bundle
 
     - name: Download rootfs
-      uses: actions/download-artifact@v6
+      uses: actions/download-artifact@v8
       with:
         name: rootfs_${{ matrix.VERSION }}_${{ matrix.SET }}
 
     - name: Download host package-manager bundle
-      uses: actions/download-artifact@v6
+      uses: actions/download-artifact@v8
       with:
         name: host_pm_${{ matrix.VERSION }}
 
@@ -498,7 +498,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
     - name: Publish release
-      uses: softprops/action-gh-release@v2
+      uses: softprops/action-gh-release@v3
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:

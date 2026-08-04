@@ -1,5 +1,10 @@
 #!/bin/bash
 
+## Prepare feeds file
+(cd friendlywrt && {
+    [ ! -f feeds.conf ] && cp feeds.conf.default feeds.conf
+})
+
 # # {{ Add luci-app-ssr-plus
 # (cd friendlywrt/package && {
 #     [ -d helloworld ] && rm -rf helloworld
@@ -21,12 +26,10 @@
 # # }}
 
 # {{ Add luci-app-passwall2
-(cd friendlywrt/package && {
-    [ -d passwall2 ] && rm -rf passwall2
-    git clone https://github.com/Openwrt-Passwall/openwrt-passwall2.git -b main passwall2
-
-    # Add missing dependencies (moved to patch_feeds.sh)
-})
+cat >> friendlywrt/feeds.conf << EOF
+src-git passwall2 https://github.com/Openwrt-Passwall/openwrt-passwall2.git;main
+src-git passwall_packages https://github.com/Openwrt-Passwall/openwrt-passwall-packages.git;main
+EOF
 cat >> configs/rockchip/01-nanopi << EOF
 CONFIG_PACKAGE_luci-app-passwall2=y
 # CONFIG_PACKAGE_luci-app-passwall2_Basic_Core_Xray is not set
@@ -48,10 +51,9 @@ EOF
 # }}
 
 # {{ Add luci-app-vlmcsd
-(cd friendlywrt/package && {
-    [ -d luci-app-vlmcsd ] && rm -rf luci-app-vlmcsd
-    git clone https://github.com/o0k1/openwrt-packages-vlmcsd.git -b immortalwrt-master
-})
+cat >> friendlywrt/feeds.conf << EOF
+src-git vlmcsd https://github.com/o0k1/openwrt-packages-vlmcsd.git;immortalwrt-master
+EOF
 cat >> configs/rockchip/01-nanopi << EOF
 CONFIG_DEFAULT_luci-app-vlmcsd=y
 CONFIG_PACKAGE_luci-app-vlmcsd=y

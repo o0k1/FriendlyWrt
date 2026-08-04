@@ -22,14 +22,14 @@
 
 # {{ Add luci-app-passwall2
 (cd friendlywrt/package && {
-    [ -d luci-app-passwall2 ] && rm -rf luci-app-passwall2
-    git clone https://github.com/Openwrt-Passwall/openwrt-passwall2.git -b main
+    [ -d passwall2 ] && rm -rf passwall2
+    git clone https://github.com/Openwrt-Passwall/openwrt-passwall2.git -b main passwall2
 
     # Add missing dependencies
-    mkdir -p luci-app-passwall2/tcping
-    mkdir -p luci-app-passwall2/geoview
-    wget https://github.com/immortalwrt/packages/raw/refs/heads/master/net/tcping/Makefile -O luci-app-passwall2/tcping/Makefile
-    wget https://github.com/immortalwrt/packages/raw/refs/heads/master/net/geoview/Makefile -O luci-app-passwall2/geoview/Makefile
+    mkdir -p passwall2/dependencies/tcping
+    mkdir -p ../feeds/packages/net/geoview # Keep relative path with lang/golang or build will fail
+    wget https://github.com/immortalwrt/packages/raw/refs/heads/master/net/tcping/Makefile -O passwall2/dependencies/tcping/Makefile
+    wget https://github.com/immortalwrt/packages/raw/refs/heads/master/net/geoview/Makefile -O ../feeds/packages/net/geoview/Makefile
 })
 cat >> configs/rockchip/01-nanopi << EOF
 CONFIG_PACKAGE_luci-app-passwall2=y

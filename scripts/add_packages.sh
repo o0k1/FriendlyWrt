@@ -25,13 +25,7 @@
     [ -d passwall2 ] && rm -rf passwall2
     git clone https://github.com/Openwrt-Passwall/openwrt-passwall2.git -b main passwall2
 
-    # Add missing dependencies
-    mkdir -p passwall2/dependencies/tcping
-    wget https://github.com/immortalwrt/packages/raw/refs/heads/master/net/tcping/Makefile -O passwall2/dependencies/tcping/Makefile
-
-    mkdir -p ../feeds/packages/net/geoview # Force relative path with lang/golang or build will fail
-    wget https://github.com/immortalwrt/packages/raw/refs/heads/master/net/geoview/Makefile -O ../feeds/packages/net/geoview/Makefile
-    ln -s ../../../feeds/packages/net/geoview passwall2/dependencies/geoview
+    # Add missing dependencies (moved to patch_feeds.sh)
 })
 cat >> configs/rockchip/01-nanopi << EOF
 CONFIG_PACKAGE_luci-app-passwall2=y

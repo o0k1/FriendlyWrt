@@ -27,9 +27,11 @@
 
     # Add missing dependencies
     mkdir -p passwall2/dependencies/tcping
-    mkdir -p ../feeds/packages/net/geoview # Keep relative path with lang/golang or build will fail
     wget https://github.com/immortalwrt/packages/raw/refs/heads/master/net/tcping/Makefile -O passwall2/dependencies/tcping/Makefile
+
+    mkdir -p ../feeds/packages/net/geoview # Force relative path with lang/golang or build will fail
     wget https://github.com/immortalwrt/packages/raw/refs/heads/master/net/geoview/Makefile -O ../feeds/packages/net/geoview/Makefile
+    ln -s ../../../feeds/packages/net/geoview passwall2/dependencies/geoview
 })
 cat >> configs/rockchip/01-nanopi << EOF
 CONFIG_PACKAGE_luci-app-passwall2=y

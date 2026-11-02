@@ -136,13 +136,14 @@ jobs:
     strategy:
       matrix:
         VERSION: ['25.12']
+        SET: [docker, non-docker]
 
     steps:
 
     - name: Download prepared workspace
       uses: actions/download-artifact@v8
       with:
-        name: workspace_${{ matrix.VERSION }}_docker # 使用包含 docker 的工具链以包含更多可能用到的内容
+        name: workspace_${{ matrix.VERSION }}_${{ matrix.SET }}
 
     - name: Unpack workspace
       run: |
@@ -169,7 +170,7 @@ jobs:
     - name: Upload built toolchain
       uses: actions/upload-artifact@v7
       with:
-        name: toolchain_${{ matrix.VERSION }}
+        name: toolchain_${{ matrix.VERSION }}_${{ matrix.SET }}
         path: toolchain.tar.gz
         retention-days: 3
 
@@ -228,7 +229,7 @@ jobs:
     - name: Download built toolchain
       uses: actions/download-artifact@v8
       with:
-        name: toolchain_${{ matrix.VERSION }}
+        name: toolchain_${{ matrix.VERSION }}_${{ matrix.SET }}
 
     - name: Unpack toolthain
       run: |
